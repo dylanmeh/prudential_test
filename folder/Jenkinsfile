@@ -21,7 +21,7 @@ spec:
     stages {
         stage('mvn version') {
             when {
-                (equals expected: 'https://github.com/dylanmeh/prudential_test', actual: getWebhookTriggerCauseEvent.getTriggerCauseEvent())
+                (equals expected: 'https://github.com/dylanmeh/prudential_test', actual: getWebhookTriggerCauseEvent.getWebhookTriggerCauseEvent())
             }
             steps {
                 sh 'mvn --version'
@@ -29,7 +29,7 @@ spec:
         }
         stage('condition based on repo url in payload') {
             when {
-                (equals expected: 'refs/heads/main', actual: getWebhookTriggerCauseEvent.getTriggerCauseEvent())
+                (equals expected: 'refs/heads/main', actual: getWebhookTriggerCauseEvent.getWebhookTriggerCauseEvent())
             }
             steps {
                 sh 'echo "running unit tests in main branch"'
