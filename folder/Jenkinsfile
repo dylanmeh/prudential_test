@@ -15,9 +15,25 @@ spec:
         defaultContainer 'build'
         }
     }
+    triggers {
+        eventTrigger jmespathQuery("repository.url == 'https://github.com/dylanmeh/prudential_test'")
+    }
     stages {
         stage('mvn version') {
-            sh 'mvn --version'
+            when {
+                (equals expected: 'https://github.com/dylanmeh/prudential_test', actual: getWebhookTriggerCauseEvent.getTriggerCauseEvent())
+            }
+            steps {
+                sh 'mvn --version'
+            }
+        }
+        stage('condition based on repo url in payload') {
+            when {
+                (equals expected: 'refs/heads/main', actual: getWebhookTriggerCauseEvent.getTriggerCauseEvent())
+            }
+            steps {
+                sh 'echo "running unit tests in main branch"'
+            }
         }
     }
 }
